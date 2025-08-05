@@ -1,0 +1,109 @@
+/* src/styles/Chat.css */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  max-width: 90%;
+}
+
+.message.user {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.message-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #2d3748;
+}
+
+.message-content {
+  background-color: #2d3748;
+  padding: 12px;
+  border-radius: 10px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.message.user .message-content {
+  background-color: #4299e1;
+}
+
+.chat-input-area {
+  padding: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.chat-input-area textarea {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #4a5568;
+  background-color: #2d3748;
+  color: white;
+  resize: none;
+  font-size: 1em;
+  font-family: inherit;
+}
+
+.chat-input-area button {
+  background-color: #4299e1;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.chat-input-area button:disabled {
+  background-color: #4a5568;
+  cursor: not-allowed;
+}
+
+/* Typing indicator from https://codepen.io/nikhil8krishnan/pen/ALLLkv */
+.typing-indicator {
+  display: flex;
+  padding: 15px !important;
+}
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  float: left;
+  margin: 0 2px;
+  background-color: #9e9ea1;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: 1s blink infinite;
+}
+.typing-indicator span:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator span:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}

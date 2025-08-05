@@ -1,0 +1,82 @@
+/* src/styles/Resume.css */
+.resume-container {
+  background: white;
+  padding: 40px;
+  margin: 0 auto;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #333;
+}
+
+.resume-header {
+  text-align: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.resume-header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #2c3e50;
+}
+
+.resume-header h2 {
+  margin: 5px 0 15px 0;
+  font-size: 1.2em;
+  font-weight: 300;
+  color: #7f8c8d;
+}
+
+.contact-info {
+  font-size: 0.9em;
+  color: #34495e;
+}
+
+.resume-section {
+  margin-bottom: 25px;
+}
+
+.resume-section h3 {
+  font-size: 1.4em;
+  color: #2980b9;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.entry {
+  margin-bottom: 15px;
+}
+
+.entry h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.1em;
+  color: #34495e;
+}
+
+.entry .duration {
+  font-style: italic;
+  color: #95a5a6;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+}
+
+.entry ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.entry li {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+.entry em {
+  color: #555;
+}
+
+.skills-grid p {
+  margin: 5px 0;
+}

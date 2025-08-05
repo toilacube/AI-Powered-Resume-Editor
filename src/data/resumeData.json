@@ -1,0 +1,49 @@
+{
+  "name": "NGUYEN SY LE HOANG",
+  "title": "FULLSTACK DEVELOPER",
+  "contact": {
+    "email": "nguyensylehoang@gmail.com",
+    "phone": "0915349683",
+    "github": "toilacube"
+  },
+  "education": [
+    {
+      "institution": "University of Information Technology - VNUHCM",
+      "degree": "Bachelor of Information Systems (4th year Undergraduate)",
+      "duration": "2021 - 2025",
+      "details": "GPA: 8.6/10. Qualified for University Scholarship in 1 semester (Top 5 highest GPA of class)."
+    }
+  ],
+  "skills": {
+    "languages": "Java, Python, TypeScript, HTML/CSS",
+    "frameworks": "Spring Boot, Hibernate, Spring Security, Docker, AWS (EC2, Lambda, S3), Kafka, RabbitMQ, Quarkus, Nestjs, Nextjs, Angular, Tailwind",
+    "databases": "MySQL, PostgreSQL, Mongodb, Firebase",
+    "sourceManagement": "Git, GitLab, Jira",
+    "english": "920 TOEIC",
+    "others": "Linux user, OOP, Data Structures and Algorithms, REST API, Microservice - Grpc, Research skills (solid knowledge of Machine Learning, AI, LLM)"
+  },
+  "experience": [
+    {
+      "company": "LOTTE INNOVATE VIETNAM",
+      "role": "FullStack Developer",
+      "duration": "12/2024 - Now",
+      "responsibilities": [
+        "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
+        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience."
+      ],
+      "techStack": "Microservices, SpringBoot, Quarkus, Nestjs, React, TypeScript"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Job Search Platform",
+      "link": "https://github.com/your-repo",
+      "isPersonal": true,
+      "responsibilities": [
+        "Developed a JWT-based authentication and authorization system with two-factor authentication.",
+        "Developed job listings management, and enabled job applications with resume uploads."
+      ],
+      "techStack": "PostgreSQL, RabbitMQ, Docker, Spring Boot, JWT, Thymeleaf"
+    }
+  ]
+}
