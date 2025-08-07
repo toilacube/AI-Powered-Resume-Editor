@@ -164,6 +164,9 @@ function App() {
                     onChange={(e) => setApiKey(e.target.value)}
                   />
                 </div>
+
+                {/* Hyper link to how to get the api key */}
+                <a href="https://ai.google.dev/gemini-api/docs/quickstart#:~:text=You%20need%20a%20Gemini%20API%20key.%20If%20you%20don%27t%20already%20have%20one%2C%20you%20can%20get%20it%20for%20free%20in%20Google%20AI%20Studio." target="_blank" rel="noopener noreferrer">How to get the api key</a>
               </div>
             )}
           </div>
