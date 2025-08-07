@@ -31,7 +31,19 @@
   "experience": [
     {
       "role": "FullStack Developer",
-      "company": "LOTTE INNOVATE VIETNAM",
+      "company": "Axon",
+      "duration": "12/2024 - Now",
+      "responsibilities": [
+        "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
+        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience.",
+        "Developed and integrated the URL sharing feature, allowing users to share links efficiently within the application.",
+        "Conducted research on the application of Large Language Models (LLM), Al and n8n in software development, exploring innovative solutions for automation and intelligent systems."
+      ],
+      "techStack": "Microservices, SpringBoot, Quarkus, Nestjs, React, TypeScript"
+    },
+    {
+      "role": "FullStack Developer",
+      "company": "OpenAI",
       "duration": "12/2024 - Now",
       "responsibilities": [
         "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
@@ -62,11 +74,9 @@
         "Designed and optimized a database structure for efficient data management.",
         "Developed user and admin management features for the e-commerce platform.",
         "Created RESTful APIs, utilizing meaningful HTTP status codes and detailed error responses.",
-        "Implemented authentication and role-based authorization using JWT with OAuth2.",
-        "Developed unit tests for repository and service layers using JUnit and Mockito.",
-        "Crawled data using Python and JavaScript, storing it in a MySQL database."
+        "Implemented authentication and role-based authorization using JWT with OAuth2."
       ],
-      "techStack": "MySQL, Docker, Spring Boot 3, Spring Security 6, JUnit, Mockito"
+      "techStack": "MySQL, Docker, Spring Boot 3, Spring Security 6"
     }
   ]
 }
