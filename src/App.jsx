@@ -6,6 +6,8 @@ import {
   ChevronDown,
   ChevronUp,
   History,
+  Upload,
+  LoaderCircle,
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
 
@@ -13,6 +15,8 @@ import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
 import { generatePDF } from "./utils/pdfUtils";
 import { validateResumeData } from "./utils/resumeValidator";
+import { extractDataFromPdf } from "./utils/openaiService";
+import ConfirmationModal from "./components/ConfirmationModal";
 
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
@@ -79,8 +83,108 @@ function App() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
 
+  // State for file upload and modal
+  const fileInputRef = React.useRef(null);
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    jsonText: "",
+    error: null,
+  });
+
+  // Handle file upload click
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Handle file selection and extraction
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.type !== "application/pdf") {
+      alert("Please select a PDF file.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB limit
+      alert("File is too large. Please select a file smaller than 5MB.");
+      return;
+    }
+
+    setIsExtracting(true);
+
+    try {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = async () => {
+        const base64String = reader.result.split(",")[1];
+        const extractedJson = await extractDataFromPdf(
+          base64String,
+          apiKey,
+          selectedModel
+        );
+        setModalState({
+          isOpen: true,
+          jsonText: JSON.stringify(extractedJson, null, 2),
+          error: null,
+        });
+      };
+    } catch (error) {
+      alert(`Error processing PDF: ${error.message}`);
+    } finally {
+      setIsExtracting(false);
+      // Reset file input to allow uploading the same file again
+      event.target.value = null;
+    }
+  };
+
+  // Handle modal apply
+  const handleModalApply = (jsonText) => {
+    try {
+      const newResumeData = JSON.parse(jsonText);
+      updateResumeAndCreateHistory(
+        newResumeData,
+        "Replaced resume from PDF upload"
+      );
+      setModalState({ isOpen: false, jsonText: "", error: null });
+    } catch (error) {
+      setModalState((prev) => ({ ...prev, error: "Invalid JSON format." }));
+    }
+  };
+
+  // Handle modal cancel
+  const handleModalCancel = () => {
+    setModalState({ isOpen: false, jsonText: "", error: null });
+  };
+
+  // Handle modal JSON change
+  const handleModalJsonChange = (newJsonText) => {
+    setModalState((prev) => ({ ...prev, jsonText: newJsonText, error: null }));
+  };
+
   return (
     <div className="app-container">
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="application/pdf"
+        style={{ display: "none" }}
+      />
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={modalState.isOpen}
+        jsonText={modalState.jsonText}
+        onJsonTextChange={handleModalJsonChange}
+        onApply={() => handleModalApply(modalState.jsonText)}
+        onCancel={handleModalCancel}
+        error={modalState.error}
+      />
+
       <aside className="sidebar">
         <div className="sidebar-header">
           <Bot size={24} />
@@ -166,15 +270,37 @@ function App() {
                 </div>
 
                 {/* Hyper link to how to get the api key */}
-                <a href="https://ai.google.dev/gemini-api/docs/quickstart#:~:text=You%20need%20a%20Gemini%20API%20key.%20If%20you%20don%27t%20already%20have%20one%2C%20you%20can%20get%20it%20for%20free%20in%20Google%20AI%20Studio." target="_blank" rel="noopener noreferrer">How to get the api key</a>
+                <a
+                  href="https://ai.google.dev/gemini-api/docs/quickstart#:~:text=You%20need%20a%20Gemini%20API%20key.%20If%20you%20don%27t%20already%20have%20one%2C%20you%20can%20get%20it%20for%20free%20in%20Google%20AI%20Studio."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  How to get the api key
+                </a>
               </div>
             )}
           </div>
-
-          <button className="action-button" onClick={() => generatePDF()}>
-            <Download size={16} />
-            Download PDF
-          </button>
+          <div className="action-buttons-group">
+            <button
+              className="action-button upload"
+              onClick={handleUploadClick}
+              disabled={isExtracting}
+            >
+              {isExtracting ? (
+                <LoaderCircle size={16} className="spinner" />
+              ) : (
+                <Upload size={16} />
+              )}
+              {isExtracting ? "Extracting..." : "Upload CV"}
+            </button>
+            <button
+              className="action-button download"
+              onClick={() => generatePDF()}
+            >
+              <Download size={16} />
+              Download PDF
+            </button>
+          </div>
         </div>
       </aside>
       <main className="main-content">

@@ -1,8 +1,14 @@
 // src/utils/geminiService.js
 
 import { GoogleGenAI } from "@google/genai";
+import resumeSchema from "../data/resumeSchema.json";
 
-export const callOpenAI = async (message, currentData, key, model = "gemini-2.0-flash-lite") => {
+export const callOpenAI = async (
+  message,
+  currentData,
+  key,
+  model = "gemini-2.0-flash-lite"
+) => {
   if (!key) {
     throw new Error(
       "Gemini API key is missing. Please provide it to continue."
@@ -60,6 +66,71 @@ export const callOpenAI = async (message, currentData, key, model = "gemini-2.0-
     console.error("Error calling Gemini API:", error);
     throw new Error(
       `Failed to communicate with the Gemini API. Please check your API key and network connection. Details: ${error.message}`
+    );
+  }
+};
+
+/**
+ * Extracts content from a PDF file using Gemini and structures it
+ * according to the provided resume JSON schema.
+ * @param {string} fileBase64 - The base64 encoded string of the PDF file.
+ * @param {string} key - The Gemini API key.
+ * @param {string} model - The Gemini model to use.
+ * @returns {Promise<object>} The extracted resume data as a JSON object.
+ */
+export const extractDataFromPdf = async (
+  fileBase64,
+  key,
+  model = "gemini-2.0-flash-lite"
+) => {
+  if (!key) {
+    throw new Error(
+      "Gemini API key is missing. Please provide it to continue."
+    );
+  }
+
+  const genAI = new GoogleGenAI({ apiKey: key });
+
+  const systemPrompt = `You are an intelligent resume parser. Your task is to analyze the provided PDF document and extract its content into a structured JSON format. 
+
+The output MUST be a single, valid JSON object that strictly conforms to the following JSON Schema. Do not include any extra text, explanations, or markdown formatting like \`\`\`json.
+
+If a value for a specific field cannot be found in the document, you MUST use an empty string "" for string types or an empty array [] for array types.
+
+JSON Schema to follow:
+${JSON.stringify(resumeSchema, null, 2)}`;
+
+  const contents = [
+    { text: systemPrompt },
+    {
+      inlineData: {
+        mimeType: "application/pdf",
+        data: fileBase64,
+      },
+    },
+  ];
+
+  try {
+    const result = await genAI.models.generateContent({
+      model,
+      contents,
+    });
+    let responseText = result.text;
+
+    console.log(responseText);
+
+    // Clean up potential markdown formatting from the response
+    responseText = responseText
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    // Parse and return the JSON object
+    return JSON.parse(responseText);
+  } catch (error) {
+    console.error("Error calling Gemini API for PDF extraction:", error);
+    throw new Error(
+      `Failed to extract data from PDF. Details: ${error.message}`
     );
   }
 };

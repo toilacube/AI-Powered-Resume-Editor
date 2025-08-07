@@ -1,0 +1,77 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "title": { "type": "string" },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "github": { "type": "string" }
+        },
+        "required": ["email", "phone", "github"]
+      },
+      "education": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "institution": { "type": "string" },
+            "degree": { "type": "string" },
+            "duration": { "type": "string" },
+            "details": { "type": "string" }
+          },
+          "required": ["institution", "degree", "duration", "details"]
+        }
+      },
+      "skills": {
+        "type": "object",
+        "properties": {
+          "languages": { "type": "string" },
+          "frameworks": { "type": "string" },
+          "databases": { "type": "string" },
+          "sourceManagement": { "type": "string" },
+          "english": { "type": "string" },
+          "others": { "type": "string" }
+        },
+        "required": ["languages", "frameworks", "databases", "sourceManagement", "english", "others"]
+      },
+      "experience": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "role": { "type": "string" },
+            "company": { "type": "string" },
+            "duration": { "type": "string" },
+            "responsibilities": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "techStack": { "type": "string" }
+          },
+          "required": ["role", "company", "duration", "responsibilities", "techStack"]
+        }
+      },
+      "projects": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "isPersonal": { "type": "boolean" },
+            "responsibilities": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "techStack": { "type": "string" }
+          },
+          "required": ["name", "isPersonal", "responsibilities", "techStack"]
+        }
+      }
+    },
+    "required": ["name", "title", "contact", "education", "skills", "experience", "projects"]
+  }
+  
