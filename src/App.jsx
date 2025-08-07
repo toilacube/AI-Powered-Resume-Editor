@@ -84,7 +84,7 @@ function App() {
       <aside className="sidebar">
         <div className="sidebar-header">
           <Bot size={24} />
-          <h2>CV Assistant</h2>
+          <h3>CV Assistant</h3>
         </div>
         <div className="chat-container">
           <ChatInterface

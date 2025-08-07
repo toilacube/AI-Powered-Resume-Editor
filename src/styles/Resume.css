@@ -1,15 +1,36 @@
 /* src/styles/Resume.css */
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:  serif;
   background-color: #f4f4f4;
-  color: #333;
+  color: black !important;
+  line-height: 1.2;
+}
+
+li {
+  font-size: 0.75em;
+}
+
+p {
+  font-size: 0.75em;
+}
+h1 {
+  font-size: 0.95em !important;
+  font-weight: 600 !important;
+}
+h2 {
+  font-size: 0.9em !important;
+}
+h3 {
+  font-size: 0.85em !important;
+}
+h4 {
+  font-size: 0.8em !important;
 }
 
 .resume-container {
   background: white;
-  padding: 40px 50px;
-  margin: 20px auto;
-  max-width: 800px;
+  padding: 20px 30px;
+  max-width: 780px;
   box-shadow: none;
   border-radius: 0;
 }
@@ -17,35 +38,44 @@ body {
 /* Header */
 .resume-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  text-align: left;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.header-main {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
 
 .resume-header h1 {
   margin: 0;
-  font-size: 1.5em;
   font-weight: bold;
-  color: #111;
+  color: black;
   text-transform: uppercase;
 }
 
 .resume-header h2 {
   margin: 5px 0 0 0;
-  font-size: 1.1em;
   font-weight: normal;
   color: #333;
   text-transform: uppercase;
 }
 
 .contact-info {
-  text-align: right;
-  font-size: 0.9em;
-  color: #333;
+  display: flex;
+  gap: 36px;
+  text-align: center;
+  font-size: 0.8em;
+  color: black;
 }
 
 .contact-info span {
-  display: block;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
   margin-bottom: 4px;
 }
 
@@ -57,35 +87,33 @@ body {
 
 /* Sections */
 .resume-section {
-  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .resume-section h3 {
-  font-size: 1.2em;
   color: #005a9c; /* A shade of blue */
   text-transform: uppercase;
   font-weight: bold;
   border-bottom: 2px solid #005a9c;
-  padding-bottom: 6px;
-  margin-bottom: 15px;
+  margin: 4px;
 }
 
 /* Entries (for Education, Experience, Projects) */
 .entry {
-  margin-bottom: 20px;
 }
 
 .entry-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 5px;
 }
 
 .entry h4 {
   margin: 0;
-  font-size: 1.1em;
-  color: #333;
+  color: black;
 }
 
 .entry h4 strong {
@@ -93,8 +121,8 @@ body {
 }
 
 .entry .duration {
-  color: #333;
-  font-size: 1em;
+  color: black;
+  font-size: 0.8em;
   font-weight: bold;
   white-space: nowrap; /* Prevents wrapping */
   margin-left: 15px;
@@ -112,7 +140,6 @@ body {
 
 .entry li {
   margin-bottom: 6px;
-  line-height: 1.5;
 }
 
 .entry .tech-stack {
@@ -122,7 +149,6 @@ body {
 /* Skills Section */
 .skills-list p {
   margin: 5px 0;
-  line-height: 1.6;
 }
 
 .skills-list strong {

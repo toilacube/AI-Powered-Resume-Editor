@@ -9,29 +9,30 @@ const ResumeTemplate = ({ data }) => {
     <div id="resume-container" className="resume-container">
       <header className="resume-header">
         <div className="header-main">
-          <h1>{data.name}</h1>
-          <h2>{data.title}</h2>
+          <h1>{data?.name || ""}</h1>
+          -
+          <h2>{data?.title || ""}</h2>
         </div>
         <div className="contact-info">
-          <span>{data.contact.email}</span>
-          <span>{data.contact.phone}</span>
-          <span>{data.contact.github}</span>
+          <span>{data?.contact?.email || ""}</span>
+          <span>{data?.contact?.phone || ""}</span>
+          <span>{data?.contact?.github || ""}</span>
         </div>
       </header>
 
 
       <section className="resume-section">
         <h3>Education</h3>
-        {data.education.map((edu, index) => (
+        {data?.education?.map((edu, index) => (
           <div key={index} className="entry">
             <div className="entry-header">
-              <h4>{edu.institution}</h4>
-              <span className="duration">{edu.duration}</span>
+              <h4>{edu?.institution || ""}</h4>
+              <span className="duration">{edu?.duration || ""}</span>
             </div>
             <p>
-              <strong>{edu.degree}</strong>
+              <strong>{edu?.degree || ""}</strong>
             </p>
-            <p>{edu.details}</p>
+            <p>{edu?.details || ""}</p>
           </div>
         ))}
       </section>
@@ -40,45 +41,45 @@ const ResumeTemplate = ({ data }) => {
         <h3>Skills</h3>
         <div className="skills-list">
           <p>
-            <strong>Languages:</strong> {data.skills.languages}
+            <strong>Languages:</strong> {data?.skills?.languages || ""}
           </p>
           <p>
             <strong>Frameworks | Libraries | Platform:</strong>{" "}
-            {data.skills.frameworks}
+            {data?.skills?.frameworks || ""}
           </p>
           <p>
-            <strong>Databases:</strong> {data.skills.databases}
+            <strong>Databases:</strong> {data?.skills?.databases || ""}
           </p>
           <p>
             <strong>Source/Project Management:</strong>{" "}
-            {data.skills.sourceManagement}
+            {data?.skills?.sourceManagement || ""}
           </p>
           <p>
-            <strong>English:</strong> {data.skills.english}
+            <strong>English:</strong> {data?.skills?.english || ""}
           </p>
           <p>
-            <strong>Others:</strong> {data.skills.others}
+            <strong>Others:</strong> {data?.skills?.others || ""}
           </p>
         </div>
       </section>
 
       <section className="resume-section">
         <h3>Experience</h3>
-        {data.experience.map((exp, index) => (
+        {data?.experience?.map((exp, index) => (
           <div key={index} className="entry">
             <div className="entry-header">
               <h4>
-                <strong>{exp.role}</strong> | {exp.company}
+                <strong>{exp?.role || ""}</strong> | {exp?.company || ""}
               </h4>
-              <span className="duration">{exp.duration}</span>
+              <span className="duration">{exp?.duration || ""}</span>
             </div>
             <ul>
-              {exp.responsibilities.map((resp, i) => (
-                <li key={i}>{resp}</li>
+              {exp?.responsibilities?.map((resp, i) => (
+                <li key={i}>{resp || ""}</li>
               ))}
             </ul>
             <p className="tech-stack">
-              <strong>Tech Stacks:</strong> {exp.techStack}
+              <strong>Tech Stacks:</strong> {exp?.techStack || ""}
             </p>
           </div>
         ))}
@@ -86,21 +87,21 @@ const ResumeTemplate = ({ data }) => {
 
       <section className="resume-section">
         <h3>Projects</h3>
-        {data.projects.map((proj, index) => (
+        {data?.projects?.map((proj, index) => (
           <div key={index} className="entry">
             <div className="entry-header">
               <h4>
-                <strong>{proj.name}</strong>{" "}
-                {proj.isPersonal && "(Personal Project)"}
+                <strong>{proj?.name || ""}</strong>{" "}
+                {proj?.isPersonal ? "(Personal Project)" : ""}
               </h4>
             </div>
             <ul>
-              {proj.responsibilities.map((resp, i) => (
-                <li key={i}>{resp}</li>
+              {proj?.responsibilities?.map((resp, i) => (
+                <li key={i}>{resp || ""}</li>
               ))}
             </ul>
             <p className="tech-stack">
-              <strong>Tech Stacks:</strong> {proj.techStack}
+              <strong>Tech Stacks:</strong> {proj?.techStack || ""}
             </p>
           </div>
         ))}

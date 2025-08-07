@@ -2,45 +2,54 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 export const generatePDF = async (elementId = "resume-container") => {
-  const element = document.getElementById(elementId);
+  const originalElement = document.getElementById(elementId);
 
-  if (!element) {
-    throw new Error(
-      "Resume element not found. Please render the resume first."
-    );
+  if (!originalElement) {
+    throw new Error("Resume element not found. Please render the resume first.");
   }
 
+  const clone = originalElement.cloneNode(true);
+  clone.style.position = "absolute";
+  clone.style.left = "-9999px";
+  clone.style.top = "0";
+  clone.style.width = originalElement.offsetWidth + "px";
+  clone.style.backgroundColor = "white";
+  document.body.appendChild(clone);
+
   try {
-    const canvas = await html2canvas(element, {
-      scale: 2,
+    const canvas = await html2canvas(clone, {
+      scale: 2, 
       useCORS: true,
-      allowTaint: true,
       backgroundColor: "#ffffff",
+      compress: true,
     });
 
-    const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    const imgWidth = 210;
-    const pageHeight = 295;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const imgProps = pdf.getImageProperties(canvas);
+    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
     let heightLeft = imgHeight;
     let position = 0;
 
-    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+    pdf.addImage(canvas, "PNG", 0, position, pdfWidth, imgHeight, undefined, 'FAST');
+    heightLeft -= pdfHeight;
 
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
+    while (heightLeft > 0) {
+      position -= pdfHeight;
       pdf.addPage();
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      pdf.addImage(canvas, "PNG", 0, position, pdfWidth, imgHeight, undefined, 'FAST');
+      heightLeft -= pdfHeight;
     }
 
     pdf.save("resume.pdf");
+
   } catch (error) {
     console.error("PDF generation failed:", error);
-    // Fallback to browser print
     window.print();
+  } finally {
+    document.body.removeChild(clone);
   }
 };
