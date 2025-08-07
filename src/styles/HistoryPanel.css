@@ -1,0 +1,75 @@
+.history-panel {
+    padding: 16px;
+    border-top: 1px solid #2d3748;
+    background-color: #1a202c;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.history-panel h4 {
+    margin: 0 0 12px 0;
+    color: #a0aec0;
+    font-size: 16px;
+}
+
+.history-table-container {
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #2d3748;
+}
+
+.history-table th {
+    color: #e2e8f0;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    background-color: #1a202c;
+}
+
+.history-table td {
+    color: #cbd5e0;
+    vertical-align: middle;
+}
+
+.history-message {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.latest-label {
+    font-weight: bold;
+    color: #48bb78;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: rgba(72, 187, 120, 0.1);
+}
+
+.apply-button {
+    background-color: #4299e1;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.apply-button:hover {
+    background-color: #3182ce;
+}

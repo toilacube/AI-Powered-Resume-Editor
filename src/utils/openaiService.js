@@ -1,85 +1,65 @@
-// src/utils/openaiService.js
+// src/utils/geminiService.js
 
-import OpenAI from 'openai';
+import { GoogleGenAI } from "@google/genai";
 
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
-
-// -----------------------------------------------------------------------------
-// WARNING: This is a client-side only application.
-// The API key is exposed to the browser, which is a security risk.
-// This approach is suitable for personal projects run locally.
-// Do NOT deploy this to a public website without moving the API
-// call to a secure backend or serverless function.
-// -----------------------------------------------------------------------------
-
-let openai;
-if (OPENAI_API_KEY && OPENAI_API_KEY !== 'your_openai_api_key_here') {
-  openai = new OpenAI({
-    apiKey: OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true, // This is required for frontend-only usage.
-  });
-}
-
-export const callOpenAI = async (message, currentData) => {
-  if (!openai) {
-    console.warn("OpenAI API key not found. Using mock response.");
-    return {
-      action: "chat",
-      message: "This is a mock response because the OpenAI API key is not configured. Please set it in your .env file.",
-    };
+export const callOpenAI = async (message, currentData, key, model = "gemini-2.0-flash-lite") => {
+  if (!key) {
+    throw new Error(
+      "Gemini API key is missing. Please provide it to continue."
+    );
   }
 
+  const genAI = new GoogleGenAI({ apiKey: key });
+
   const systemPrompt = `
-You are an expert CV/Resume assistant. Your task is to process user requests to modify a CV, which is represented in JSON format.
-Analyze the user's request and the current CV data.
-You MUST respond with a single, valid JSON object and nothing else.
-
-The JSON response should have the following structure:
-{
-  "action": "update_cv" | "analyze_job" | "suggest" | "chat",
-  "data": <the complete, updated CV JSON object if action is 'update_cv', otherwise null>,
-  "message": "<A user-facing message explaining what you did>"
-}
-
-EXAMPLE:
-- User says: "Change my name to John Doe and add a new skill: 'GraphQL'"
-- You should return:
-{
-  "action": "update_cv",
-  "data": { /* ... the entire CV JSON, but with the name changed to "John Doe" and "GraphQL" added to skills.languages ... */ },
-  "message": "I've updated your name to John Doe and added GraphQL to your skills."
-}
-
-If the user asks to analyze a job description, use the "analyze_job" action and provide your analysis in the "message" field.
-If the user is just chatting, use the "chat" action.
-
-Current CV JSON data:
-${JSON.stringify(currentData, null, 2)}
-`;
-
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4-turbo', // A powerful and modern model good for JSON tasks
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: message }
-      ],
-      temperature: 0.5,
-      response_format: { type: "json_object" } // Enforce JSON output
-    });
-
-    const responseContent = completion.choices[0].message.content;
-
-    if (!responseContent) {
-      throw new Error("Received an empty response from OpenAI.");
+    You are an expert CV/Resume assistant. Your task is to act as a JSON transformation engine.
+    Based on the user's request, you MUST generate a valid JSON Patch (RFC 6902) array to modify the user's current CV data.
+    
+    The JSON Patch format is an array of operations. The main operations are "add", "remove", and "replace".
+    - 'op': The operation to perform.
+    - 'path': A JSON Pointer path to the target location (e.g., "/contact/email"). For array elements, use "/experience/0/role". To add to the end of an array, use "/skills/languages/-".
+    - 'value': The new value for "add" or "replace" operations.
+    
+    You MUST respond with a single, valid JSON object with the following structure:
+    {
+      "patches": <the JSON Patch array you generated>,
+      "message": "<A user-facing message explaining what you did>"
     }
     
-    // The SDK returns the JSON as a string, so we still need to parse it.
-    return JSON.parse(responseContent);
+    EXAMPLE:
+    - User says: "Change my phone number to 555-1234 and add 'Go' to my languages."
+    - Your response MUST be:
+    {
+      "patches": [
+        { "op": "replace", "path": "/contact/phone", "value": "555-1234" },
+        { "op": "add", "path": "/skills/languages/-", "value": "Go" }
+      ],
+      "message": "I've updated your phone number and added 'Go' to your skills."
+    }
+    
+    If the user is just chatting or asking for analysis (not a direct data change), return an empty "patches" array and put your response in the "message" field.
+    
+    Current CV JSON data:
+    ${JSON.stringify(currentData, null, 2)}
+    `;
 
+  const fullPrompt = `${systemPrompt}\n\nUser Request: "${message}"`;
+
+  try {
+    const result = await genAI.models.generateContent({
+      model: model,
+      contents: fullPrompt,
+    });
+    let responseText = result.text;
+
+    // remove ```json and ```
+    responseText = responseText.replace("```json", "").replace("```", "");
+
+    return JSON.parse(responseText);
   } catch (error) {
-    console.error('OpenAI API error:', error);
-    // The SDK provides more descriptive error messages.
-    throw new Error(`OpenAI API error: ${error.message}`);
+    console.error("Error calling Gemini API:", error);
+    throw new Error(
+      `Failed to communicate with the Gemini API. Please check your API key and network connection. Details: ${error.message}`
+    );
   }
 };

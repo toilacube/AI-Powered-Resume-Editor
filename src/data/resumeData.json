@@ -9,9 +9,15 @@
   "education": [
     {
       "institution": "University of Information Technology - VNUHCM",
-      "degree": "Bachelor of Information Systems (4th year Undergraduate)",
+      "degree": "Bachelor of Information Systems",
       "duration": "2021 - 2025",
-      "details": "GPA: 8.6/10. Qualified for University Scholarship in 1 semester (Top 5 highest GPA of class)."
+      "details": "4th year Undergraduate. GPA: 8.6/10. Qualified for University Scholarship in 1 semester (Top 5 highest GPA of class)."
+    },
+    {
+      "institution": "Le Quy Don Khanh Hoa - High School for the Gifted",
+      "degree": "Math Specialization",
+      "duration": "2018 - 2021",
+      "details": ""
     }
   ],
   "skills": {
@@ -24,12 +30,14 @@
   },
   "experience": [
     {
-      "company": "LOTTE INNOVATE VIETNAM",
       "role": "FullStack Developer",
+      "company": "LOTTE INNOVATE VIETNAM",
       "duration": "12/2024 - Now",
       "responsibilities": [
         "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
-        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience."
+        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience.",
+        "Developed and integrated the URL sharing feature, allowing users to share links efficiently within the application.",
+        "Conducted research on the application of Large Language Models (LLM), Al and n8n in software development, exploring innovative solutions for automation and intelligent systems."
       ],
       "techStack": "Microservices, SpringBoot, Quarkus, Nestjs, React, TypeScript"
     }
@@ -37,13 +45,28 @@
   "projects": [
     {
       "name": "Job Search Platform",
-      "link": "https://github.com/your-repo",
       "isPersonal": true,
       "responsibilities": [
         "Developed a JWT-based authentication and authorization system with two-factor authentication.",
-        "Developed job listings management, and enabled job applications with resume uploads."
+        "Developed job listings management, and enabled job applications with resume uploads.",
+        "Integrated RabbitMQ for job application email notifications using Thymeleaf.",
+        "Enhanced user experience with skill-based job matching and feedback system.",
+        "Developed a feature for users to save job and receive automated reminders for job application deadlines or unsent applications."
       ],
       "techStack": "PostgreSQL, RabbitMQ, Docker, Spring Boot, JWT, Thymeleaf"
+    },
+    {
+      "name": "Back-end for an E-commerce Website",
+      "isPersonal": true,
+      "responsibilities": [
+        "Designed and optimized a database structure for efficient data management.",
+        "Developed user and admin management features for the e-commerce platform.",
+        "Created RESTful APIs, utilizing meaningful HTTP status codes and detailed error responses.",
+        "Implemented authentication and role-based authorization using JWT with OAuth2.",
+        "Developed unit tests for repository and service layers using JUnit and Mockito.",
+        "Crawled data using Python and JavaScript, storing it in a MySQL database."
+      ],
+      "techStack": "MySQL, Docker, Spring Boot 3, Spring Security 6, JUnit, Mockito"
     }
   ]
 }
