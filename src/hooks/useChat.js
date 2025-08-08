@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 import { callOpenAI } from '../utils/openaiService'; 
 
 // 1. Accept apiKey and model as arguments
-export const useChat = (onResumeUpdate, currentData, apiKey, model = "gemini-2.0-flash-lite") => {
+export const useChat = (onResumeUpdate, currentData, apiKey, model = "gemini-2.0-flash") => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',

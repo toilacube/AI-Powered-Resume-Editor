@@ -64,7 +64,7 @@ function App() {
 
   // Add state for model selection
   const [selectedModel, setSelectedModel] = useState(
-    () => localStorage.getItem("selected_model") || "gemini-2.0-flash-lite"
+    () => localStorage.getItem("selected_model") || "gemini-2.0-flash"
   );
 
   // Save model preference to localStorage when it changes
