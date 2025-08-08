@@ -84,9 +84,6 @@ src/
 |-- main.jsx        # Application entry point
 ```
 
-```
-
----
 
 ### TODO List & Future Enhancements
 
