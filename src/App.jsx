@@ -10,13 +10,14 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
-import { generatePDF } from "./utils/pdfUtils";
 import { validateResumeData } from "./utils/resumeValidator";
 import { extractDataFromPdf } from "./utils/openaiService";
 import ConfirmationModal from "./components/ConfirmationModal";
+import ResumePDFDocument from "./components/ResumePDFDocument";
 
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
@@ -293,13 +294,25 @@ function App() {
               )}
               {isExtracting ? "Extracting..." : "Upload CV"}
             </button>
-            <button
+            <PDFDownloadLink
+              document={<ResumePDFDocument data={resumeData} />}
+              fileName="resume.pdf"
               className="action-button download"
-              onClick={() => generatePDF()}
             >
-              <Download size={16} />
-              Download PDF
-            </button>
+              {({ loading }) =>
+                loading ? (
+                  <>
+                    <LoaderCircle size={16} className="spinner" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    Download PDF
+                  </>
+                )
+              }
+            </PDFDownloadLink>
           </div>
         </div>
       </aside>

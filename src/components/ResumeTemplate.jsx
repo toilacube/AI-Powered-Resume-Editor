@@ -9,17 +9,16 @@ const ResumeTemplate = ({ data }) => {
     <div id="resume-container" className="resume-container">
       <header className="resume-header">
         <div className="header-main">
-          <h1>{data?.name || ""}</h1>
-          -
-          <h2>{data?.title || ""}</h2>
+          <h1>{data?.name || ""}</h1>-<h2>{data?.title || ""}</h2>
         </div>
         <div className="contact-info">
           <span>{data?.contact?.email || ""}</span>
+          <span>-</span>
           <span>{data?.contact?.phone || ""}</span>
+          <span>-</span>
           <span>{data?.contact?.github || ""}</span>
         </div>
       </header>
-
 
       <section className="resume-section">
         <h3>Education</h3>
