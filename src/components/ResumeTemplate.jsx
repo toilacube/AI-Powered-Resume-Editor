@@ -23,7 +23,7 @@ const ResumeTemplate = ({ data }) => {
         </header>
 
         <section className="resume-section">
-          <h3>Education</h3>
+          {data?.education?.length > 0 && <h3>Education</h3>}
           {data?.education?.map((edu, index) => (
             <div key={index} className="entry">
               <div className="entry-header">
@@ -39,7 +39,7 @@ const ResumeTemplate = ({ data }) => {
         </section>
 
         <section className="resume-section">
-          <h3>Skills</h3>
+          { <h3>Skills</h3>}
           <div className="skills-list">
             <p>
               <strong>Languages:</strong> {data?.skills?.languages || ""}

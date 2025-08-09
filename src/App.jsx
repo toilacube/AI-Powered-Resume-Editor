@@ -20,6 +20,7 @@ import "./styles/App.css"; // Main application shell styles
 import "./styles/Chat.css"; // Component-specific styles
 import "./styles/HistoryPanel.css";
 import "./styles/Modal.css";
+import { extractDataFromPdf } from "./utils/openaiService";
 
 function App() {
   const {
