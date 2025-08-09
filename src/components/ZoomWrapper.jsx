@@ -1,5 +1,5 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-
+import "../styles/ZoomWrapper.css";
 const ZoomWrapper = ({ children }) => {
   return (
     <TransformWrapper

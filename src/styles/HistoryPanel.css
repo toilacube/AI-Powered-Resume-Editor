@@ -1,75 +1,78 @@
-.history-panel {
-    padding: 16px;
-    border-top: 1px solid #2d3748;
-    background-color: #1a202c;
+
+/* This is the actual scrolling container. */
+.history-list-container {
+    max-height: 250px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
-}
-
-.history-panel h4 {
-    margin: 0 0 12px 0;
-    color: #a0aec0;
-    font-size: 16px;
-}
-
-.history-table-container {
-    max-height: 220px;
-    overflow-y: auto;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-.history-table th,
-.history-table td {
-    padding: 8px 10px;
-    text-align: left;
-    border-bottom: 1px solid #2d3748;
-}
-
-.history-table th {
-    color: #e2e8f0;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    background-color: #1a202c;
-}
-
-.history-table td {
-    color: #cbd5e0;
-    vertical-align: middle;
-}
-
-.history-message {
-    max-width: 150px;
+    gap: var(--spacing-sm);
+    padding: 0 var(--spacing-sm) var(--spacing-sm) var(--spacing-lg); /* Adjust padding for scrollbar */
+  }
+  
+  /* Styling for each individual history log item */
+  .history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s ease;
+    gap: var(--spacing-md);
+  }
+  .history-item:hover {
+    background-color: #f0f2f0; /* A slightly more noticeable hover */
+  }
+  
+  /* Container for the message and timestamp */
+  .history-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0; /* CRITICAL: Allows flexbox to shrink this item and lets text-overflow work */
+  }
+  
+  .history-message {
+    font-size: 0.9rem;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.latest-label {
-    font-weight: bold;
-    color: #48bb78;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: rgba(72, 187, 120, 0.1);
-}
-
-.apply-button {
-    background-color: #4299e1;
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 12px;
+  }
+  
+  .history-timestamp {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+  
+  /* Container for the button/label */
+  .history-action {
+    flex-shrink: 0; /* Prevents the button from shrinking */
+  }
+  
+  .history-action .latest-label,
+  .history-action .apply-button {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  
+  .latest-label {
+    color: var(--color-secondary);
+    background-color: color-mix(in srgb, var(--color-secondary) 15%, transparent);
+  }
+  
+  .apply-button {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border-color: var(--color-border);
     cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.apply-button:hover {
-    background-color: #3182ce;
-}
+  }
+  
+  .apply-button:hover {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    color: var(--color-text-on-primary);
+  }

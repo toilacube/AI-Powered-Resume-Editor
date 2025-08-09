@@ -10,19 +10,19 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
-import { validateResumeData } from "./utils/resumeValidator";
-import { extractDataFromPdf } from "./utils/openaiService";
 import ConfirmationModal from "./components/ConfirmationModal";
 import ResumePDFDocument from "./components/ResumePDFDocument";
-
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
 import HistoryPanel from "./components/HistoryPanel";
-import "./styles/App.css";
+import "./styles/App.css"; // Main application shell styles
+import "./styles/Chat.css"; // Component-specific styles
+import "./styles/HistoryPanel.css";
+import "./styles/Modal.css";
 
 function App() {
   const {
@@ -32,59 +32,47 @@ function App() {
     applyHistoryVersion,
   } = useResumeHistory();
 
-  // 1. ADD STATE FOR THE API KEY
   const [apiKey, setApiKey] = useState(
     () => localStorage.getItem("gemini_api_key") || ""
   );
 
-  // 2. SAVE API KEY TO LOCALSTORAGE WHENEVER IT CHANGES
   useEffect(() => {
     if (apiKey) {
       localStorage.setItem("gemini_api_key", apiKey);
     } else {
-      // Avoid storing an empty key
       localStorage.removeItem("gemini_api_key");
     }
   }, [apiKey]);
 
   const handleResumeUpdate = (patches, userMessage) => {
     try {
-      // Apply the patch and create a deep clone to ensure the state is truly new
       const { newDocument } = applyPatch(
         JSON.parse(JSON.stringify(resumeData)),
         patches
       );
-
-      // Call the history hook to save this new version
       updateResumeAndCreateHistory(newDocument, userMessage);
     } catch (e) {
       console.error("Failed to apply JSON patch:", e);
     }
   };
 
-  // Add state for model selection
   const [selectedModel, setSelectedModel] = useState(
     () => localStorage.getItem("selected_model") || "gemini-2.0-flash"
   );
 
-  // Save model preference to localStorage when it changes
   useEffect(() => {
     localStorage.setItem("selected_model", selectedModel);
   }, [selectedModel]);
 
-  // 3. PASS THE API KEY AND SELECTED MODEL TO THE useChat HOOK
   const { messages, isLoading, sendMessage } = useChat(
     handleResumeUpdate,
     resumeData,
     apiKey,
-    selectedModel // Pass the selected model here
+    selectedModel
   );
 
-  // State for collapsible sections
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
-
-  // State for file upload and modal
   const fileInputRef = React.useRef(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -93,29 +81,22 @@ function App() {
     error: null,
   });
 
-  // Handle file upload click
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
 
-  // Handle file selection and extraction
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     if (file.type !== "application/pdf") {
       alert("Please select a PDF file.");
       return;
     }
-
     if (file.size > 5 * 1024 * 1024) {
-      // 5MB limit
       alert("File is too large. Please select a file smaller than 5MB.");
       return;
     }
-
     setIsExtracting(true);
-
     try {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -136,12 +117,10 @@ function App() {
       alert(`Error processing PDF: ${error.message}`);
     } finally {
       setIsExtracting(false);
-      // Reset file input to allow uploading the same file again
       event.target.value = null;
     }
   };
 
-  // Handle modal apply
   const handleModalApply = (jsonText) => {
     try {
       const newResumeData = JSON.parse(jsonText);
@@ -155,19 +134,16 @@ function App() {
     }
   };
 
-  // Handle modal cancel
   const handleModalCancel = () => {
     setModalState({ isOpen: false, jsonText: "", error: null });
   };
 
-  // Handle modal JSON change
   const handleModalJsonChange = (newJsonText) => {
     setModalState((prev) => ({ ...prev, jsonText: newJsonText, error: null }));
   };
 
   return (
     <div className="app-container">
-      {/* Hidden file input */}
       <input
         type="file"
         ref={fileInputRef}
@@ -176,7 +152,6 @@ function App() {
         style={{ display: "none" }}
       />
 
-      {/* Confirmation Modal */}
       <ConfirmationModal
         isOpen={modalState.isOpen}
         jsonText={modalState.jsonText}
@@ -186,12 +161,14 @@ function App() {
         error={modalState.error}
       />
 
-      <aside className="sidebar">
+      {/* Left Sidebar */}
+      <aside className="left-sidebar">
         <div className="sidebar-header">
-          <Bot size={24} />
-          <h3>CV Assistant</h3>
+          <Bot size={28} color="var(--color-secondary)" />
+          <h3>AI Resume Assistant</h3>
         </div>
-        <div className="chat-container">
+
+        <div className="chat-wrapper">
           <ChatInterface
             messages={messages}
             isLoading={isLoading}
@@ -200,7 +177,6 @@ function App() {
         </div>
 
         <div className="sidebar-footer">
-          {/* Collapsible History Panel */}
           <div className="collapsible-section">
             <div
               className="section-header"
@@ -208,12 +184,12 @@ function App() {
             >
               <div className="section-title">
                 <History size={16} />
-                <span>History</span>
+                <span>Change History</span>
               </div>
               {isHistoryOpen ? (
-                <ChevronUp size={18} />
+                <ChevronUp size={20} />
               ) : (
-                <ChevronDown size={18} />
+                <ChevronDown size={20} />
               )}
             </div>
             {isHistoryOpen && (
@@ -223,7 +199,7 @@ function App() {
               />
             )}
           </div>
-          {/* Collapsible Settings Section */}
+
           <div className="collapsible-section">
             <div
               className="section-header"
@@ -231,25 +207,23 @@ function App() {
             >
               <div className="section-title">
                 <KeyRound size={16} />
-                <span>Settings</span>
+                <span>AI & API Settings</span>
               </div>
               {isSettingsOpen ? (
-                <ChevronUp size={18} />
+                <ChevronUp size={20} />
               ) : (
-                <ChevronDown size={18} />
+                <ChevronDown size={20} />
               )}
             </div>
-
             {isSettingsOpen && (
               <div className="settings-content">
-                {/* Model Selection Dropdown */}
-                <div className="model-selector">
-                  <label htmlFor="model-select">Model:</label>
+                <div className="setting-item">
+                  <label htmlFor="model-select">AI Model</label>
                   <select
                     id="model-select"
                     value={selectedModel}
                     onChange={(e) => setSelectedModel(e.target.value)}
-                    className="model-dropdown"
+                    className="styled-select"
                   >
                     <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
                     <option value="gemini-2.0-flash-lite">
@@ -257,68 +231,80 @@ function App() {
                     </option>
                   </select>
                 </div>
-
-                {/* API Key Input */}
-                <div className="api-key-input-container">
-                  <KeyRound size={16} />
-                  <input
-                    type="password"
-                    className="api-key-input"
-                    placeholder="Enter Gemini API Key here"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                  />
+                <div className="setting-item">
+                  <label htmlFor="api-key-input">Gemini API Key</label>
+                  <div className="api-key-input-wrapper">
+                    <input
+                      id="api-key-input"
+                      type="password"
+                      className="api-key-input"
+                      placeholder="Enter your key..."
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                    />
+                  </div>
+                  <a
+                    href="https://ai.google.dev/gemini-api/docs/quickstart"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="api-key-link"
+                  >
+                    How to get an API key
+                  </a>
                 </div>
-
-                {/* Hyper link to how to get the api key */}
-                <a
-                  href="https://ai.google.dev/gemini-api/docs/quickstart#:~:text=You%20need%20a%20Gemini%20API%20key.%20If%20you%20don%27t%20already%20have%20one%2C%20you%20can%20get%20it%20for%20free%20in%20Google%20AI%20Studio."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  How to get the api key
-                </a>
               </div>
             )}
           </div>
-          <div className="action-buttons-group">
-            <button
-              className="action-button upload"
-              onClick={handleUploadClick}
-              disabled={isExtracting}
-            >
-              {isExtracting ? (
-                <LoaderCircle size={16} className="spinner" />
-              ) : (
-                <Upload size={16} />
-              )}
-              {isExtracting ? "Extracting..." : "Upload CV"}
-            </button>
-            <PDFDownloadLink
-              document={<ResumePDFDocument data={resumeData} />}
-              fileName="resume.pdf"
-              className="action-button download"
-            >
-              {({ loading }) =>
-                loading ? (
-                  <>
-                    <LoaderCircle size={16} className="spinner" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Download size={16} />
-                    Download PDF
-                  </>
-                )
-              }
-            </PDFDownloadLink>
-          </div>
         </div>
       </aside>
+
+      {/* Main Content */}
       <main className="main-content">
         <ResumeTemplate data={resumeData} />
       </main>
+
+      {/* Right Sidebar */}
+      <aside className="right-sidebar">
+        <div className="right-sidebar-header">
+          <h4>Actions</h4>
+        </div>
+        <div className="action-buttons-group">
+          <button
+            className="action-button"
+            onClick={handleUploadClick}
+            disabled={isExtracting}
+          >
+            {isExtracting ? (
+              <LoaderCircle size={20} className="spinner" />
+            ) : (
+              <Upload size={20} />
+            )}
+            <span>{isExtracting ? "Extracting..." : "Upload CV"}</span>
+          </button>
+          <PDFDownloadLink
+            document={<ResumePDFDocument data={resumeData} />}
+            fileName="resume.pdf"
+            className="action-button primary"
+          >
+            {({ loading }) =>
+              loading ? (
+                <>
+                  <LoaderCircle size={20} className="spinner" />
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  <Download size={20} />
+                  <span>Download PDF</span>
+                </>
+              )
+            }
+          </PDFDownloadLink>
+        </div>
+        <div className="right-sidebar-footer">
+          <p>Built with React & Gemini</p>
+        </div>
+      </aside>
     </div>
   );
 }
