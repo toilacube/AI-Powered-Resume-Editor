@@ -2,3 +2,8 @@
     display: flex;
     gap: var(--spacing-sm);
 }
+
+.zoom-content {
+    width: 100%;
+    height: 100%;
+}

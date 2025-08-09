@@ -32,7 +32,7 @@ h4 {
   padding: 20px 30px;
   max-width: 780px;
   box-shadow: none;
-  border-radius: 0;
+  border-radius: var(--radius-md);
 }
 
 /* Header */

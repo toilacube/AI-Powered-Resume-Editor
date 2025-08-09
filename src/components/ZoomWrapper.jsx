@@ -16,7 +16,7 @@ const ZoomWrapper = ({ children }) => {
             <button onClick={() => resetTransform()}>Reset</button>
           </div>
           <TransformComponent>
-            <div style={{ width: "100%", height: "100%" }}>{children}</div>
+            <div className="zoom-content">{children}</div>
           </TransformComponent>
         </>
       )}
