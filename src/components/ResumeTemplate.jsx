@@ -7,7 +7,7 @@ const ResumeTemplate = ({ data }) => {
   if (!data) return <div className="resume-container">Loading...</div>;
 
   return (
-    <ZoomWrapper>
+    <ZoomWrapper resumeData={data}>
       <div id="resume-container" className="resume-container">
         <header className="resume-header">
           <div className="header-main">

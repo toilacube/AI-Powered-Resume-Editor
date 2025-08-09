@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import {
-  Download,
   Bot,
   KeyRound,
   ChevronDown,
   ChevronUp,
   History,
   Upload,
-  LoaderCircle,
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+
 
 import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
 import ConfirmationModal from "./components/ConfirmationModal";
-import ResumePDFDocument from "./components/ResumePDFDocument";
+
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
 import HistoryPanel from "./components/HistoryPanel";
@@ -275,31 +273,13 @@ function App() {
             disabled={isExtracting}
           >
             {isExtracting ? (
-              <LoaderCircle size={20} className="spinner" />
+              <LoaderCircle size={16} className="spinner" />
             ) : (
-              <Upload size={20} />
+              <Upload size={16} />
             )}
             <span>{isExtracting ? "Extracting..." : "Upload CV"}</span>
           </button>
-          <PDFDownloadLink
-            document={<ResumePDFDocument data={resumeData} />}
-            fileName="resume.pdf"
-            className="action-button primary"
-          >
-            {({ loading }) =>
-              loading ? (
-                <>
-                  <LoaderCircle size={20} className="spinner" />
-                  <span>Generating...</span>
-                </>
-              ) : (
-                <>
-                  <Download size={20} />
-                  <span>Download PDF</span>
-                </>
-              )
-            }
-          </PDFDownloadLink>
+
         </div>
         <div className="right-sidebar-footer">
           <p>Built with React & Gemini</p>

@@ -1,6 +1,9 @@
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Download, LoaderCircle } from "lucide-react";
+import ResumePDFDocument from "./ResumePDFDocument";
 import "../styles/ZoomWrapper.css";
-const ZoomWrapper = ({ children }) => {
+const ZoomWrapper = ({ children, resumeData }) => {
   return (
     <TransformWrapper
       initialScale={1}
@@ -9,16 +12,39 @@ const ZoomWrapper = ({ children }) => {
       centerOnInit={true}
     >
       {({ zoomIn, zoomOut, resetTransform }) => (
-        <>
+        <div className="zoom-wrapper">
           <div className="tools">
             <button onClick={() => zoomIn()}>+</button>
             <button onClick={() => zoomOut()}>-</button>
             <button onClick={() => resetTransform()}>Reset</button>
           </div>
           <TransformComponent>
-            <div className="zoom-content">{children}</div>
+            <div className="zoom-content">
+              <div>{children}</div>
+            </div>
           </TransformComponent>
-        </>
+          <div className="floating-button">
+            <PDFDownloadLink
+              document={<ResumePDFDocument data={resumeData} />}
+              fileName="resume.pdf"
+              className="download-pdf-button primary"
+            >
+              {({ loading }) =>
+                loading ? (
+                  <>
+                    <LoaderCircle size={16} className="spinner" />
+                    <span>Generating...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download size={16} />
+                    <span>Download PDF</span>
+                  </>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
+        </div>
       )}
     </TransformWrapper>
   );

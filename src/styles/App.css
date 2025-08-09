@@ -168,7 +168,7 @@
 .action-button {
   width: 100%;
   padding: var(--spacing-md);
-  font-size: 1rem;
+  font-size: var(--text-sm);
   font-weight: 500;
   border-radius: var(--radius-md);
   display: flex;
