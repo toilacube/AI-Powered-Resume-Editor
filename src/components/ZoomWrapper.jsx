@@ -14,9 +14,17 @@ const ZoomWrapper = ({ children, resumeData }) => {
       {({ zoomIn, zoomOut, resetTransform }) => (
         <div className="zoom-wrapper">
           <div className="tools">
-            <button onClick={() => zoomIn()}>+</button>
-            <button onClick={() => zoomOut()}>-</button>
-            <button onClick={() => resetTransform()}>Reset</button>
+            <div className="zoom-controls">
+              <button onClick={() => zoomIn()} aria-label="Zoom In">
+                +
+              </button>
+              <button onClick={() => zoomOut()} aria-label="Zoom Out">
+                -
+              </button>
+              <button onClick={() => resetTransform()} aria-label="Reset Zoom">
+                Reset
+              </button>
+            </div>
           </div>
           <TransformComponent>
             <div className="zoom-content">

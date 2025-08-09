@@ -15,6 +15,40 @@
   height: 100%;
 }
 
+.zoom-controls {
+  display: flex;
+  gap: var(--spacing-sm);
+  background: var(--color-surface);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.zoom-controls button {
+  padding: var(--spacing-md);
+  width: fit-content;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.zoom-controls button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border-color: var(--color-primary);
+}
+
+.zoom-controls button:active {
+  transform: scale(0.95);
+}
+
 .floating-button {
   position: absolute;
   bottom: 20px;
@@ -41,13 +75,13 @@
   border-color: color-mix(in srgb, var(--color-border) 80%, black);
 }
 .download-pdf-button.primary {
-  background-color: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
   color: var(--color-text-on-primary);
 }
 .download-pdf-button.primary:hover {
-  background-color: color-mix(in srgb, var(--color-secondary) 90%, black);
-  border-color: color-mix(in srgb, var(--color-secondary) 90%, black);
+  background-color: color-mix(in srgb, var(--color-primary) 90%, black);
+  border-color: color-mix(in srgb, var(--color-primary) 90%, black);
 }
 .download-pdf-button:disabled {
   background-color: var(--color-border);

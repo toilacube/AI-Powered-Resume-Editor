@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
 
-
 import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
 import ConfirmationModal from "./components/ConfirmationModal";
@@ -69,8 +68,8 @@ function App() {
     selectedModel
   );
 
-  const [isHistoryOpen, setIsHistoryOpen] = useState(true);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const fileInputRef = React.useRef(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -163,15 +162,7 @@ function App() {
       <aside className="left-sidebar">
         <div className="sidebar-header">
           <Bot size={28} color="var(--color-secondary)" />
-          <h3>AI Resume Assistant</h3>
-        </div>
-
-        <div className="chat-wrapper">
-          <ChatInterface
-            messages={messages}
-            isLoading={isLoading}
-            onSendMessage={sendMessage}
-          />
+          <h2>AI Resume Assistant</h2>
         </div>
 
         <div className="sidebar-footer">
@@ -254,6 +245,14 @@ function App() {
             )}
           </div>
         </div>
+
+        <div className="chat-wrapper">
+          <ChatInterface
+            messages={messages}
+            isLoading={isLoading}
+            onSendMessage={sendMessage}
+          />
+        </div>
       </aside>
 
       {/* Main Content */}
@@ -279,10 +278,9 @@ function App() {
             )}
             <span>{isExtracting ? "Extracting..." : "Upload CV"}</span>
           </button>
-
         </div>
         <div className="right-sidebar-footer">
-          <p>Built with React & Gemini</p>
+          <p>Made by toilacube</p>
         </div>
       </aside>
     </div>
