@@ -1,82 +1,83 @@
 {
-  "name": "NGUYEN SY LE HOANG",
+  "name": "ALEXANDER L. MURRAY",
   "title": "FULLSTACK DEVELOPER",
   "contact": {
-    "email": "nguyensylehoang@gmail.com",
-    "phone": "0915349683",
-    "github": "toilacube"
+    "email": "alex.murray.dev@example.com",
+    "phone": "555-842-1397",
+    "github": "alxmurray"
   },
   "education": [
     {
-      "institution": "University of Information Technology - VNUHCM",
-      "degree": "Bachelor of Information Systems",
-      "duration": "2021 - 2025",
-      "details": "4th year Undergraduate. GPA: 8.6/10. Qualified for University Scholarship in 1 semester (Top 5 highest GPA of class)."
+      "institution": "Pacific Coast Institute of Technology",
+      "degree": "Bachelor of Computer Science",
+      "duration": "2020 - 2024",
+      "details": "Final year undergraduate. GPA: 3.85/4.0. Dean’s List for 3 consecutive semesters."
     },
     {
-      "institution": "Le Quy Don Khanh Hoa - High School for the Gifted",
-      "degree": "Math Specialization",
-      "duration": "2018 - 2021",
+      "institution": "Northview Science and Mathematics Academy",
+      "degree": "Mathematics Specialization",
+      "duration": "2017 - 2020",
       "details": ""
     }
   ],
   "skills": {
     "languages": "Java, Python, TypeScript, HTML/CSS",
-    "frameworks": "Spring Boot, Hibernate, Spring Security, Docker, AWS (EC2, Lambda, S3), Kafka, RabbitMQ, Quarkus, Nestjs, Nextjs, Angular, Tailwind",
-    "databases": "MySQL, PostgreSQL, Mongodb, Firebase",
+    "frameworks": "Spring Boot, Hibernate, Spring Security, Docker, AWS (EC2, Lambda, S3), Kafka, RabbitMQ, Quarkus, NestJS, Next.js, Angular, Tailwind",
+    "databases": "MySQL, PostgreSQL, MongoDB, Firebase",
     "sourceManagement": "Git, GitLab, Jira",
-    "english": "920 TOEIC",
-    "others": "Linux user, OOP, Data Structures and Algorithms, REST API, Microservice - Grpc, Research skills (solid knowledge of Machine Learning, AI, LLM)"
+    "english": "940 TOEIC",
+    "others": "Linux user"
   },
   "experience": [
     {
       "role": "FullStack Developer",
-      "company": "Axon",
-      "duration": "12/2024 - Now",
+      "company": "TechNova Solutions",
+      "duration": "01/2025 - Now",
       "responsibilities": [
-        "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
-        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience.",
-        "Developed and integrated the URL sharing feature, allowing users to share links efficiently within the application.",
-        "Conducted research on the application of Large Language Models (LLM), Al and n8n in software development, exploring innovative solutions for automation and intelligent systems."
+        "Developed modular UI components with Ant Design and custom styling for enhanced usability.",
+        "Added microservices to the API Gateway and integrated endpoints with the frontend.",
+        "Implemented a collaborative document-sharing feature for real-time editing.",
+        "Conducted research on integrating LLM-powered chatbots for customer service automation."
       ],
-      "techStack": "Microservices, SpringBoot, Quarkus, Nestjs, React, TypeScript"
+      "techStack": "Microservices, Spring Boot, Quarkus, NestJS, React, TypeScript"
     },
     {
       "role": "FullStack Developer",
-      "company": "OpenAI",
-      "duration": "12/2024 - Now",
+      "company": "TechNova Solutions",
+      "duration": "01/2025 - Now",
       "responsibilities": [
-        "Developed user interfaces and layouts with Ant Design, incorporating custom components for enhanced functionality and design.",
-        "Added services to the API Gateway and integrated the API with the frontend, streamlining communication and enhancing user experience.",
-        "Developed and integrated the URL sharing feature, allowing users to share links efficiently within the application.",
-        "Conducted research on the application of Large Language Models (LLM), Al and n8n in software development, exploring innovative solutions for automation and intelligent systems."
+        "Developed modular UI components with Ant Design and custom styling for enhanced usability.",
+        "Added microservices to the API Gateway and integrated endpoints with the frontend.",
+        "Implemented a collaborative document-sharing feature for real-time editing.",
+        "Conducted research on integrating LLM-powered chatbots for customer service automation."
       ],
-      "techStack": "Microservices, SpringBoot, Quarkus, Nestjs, React, TypeScript"
+      "techStack": "Microservices, Spring Boot, Quarkus, NestJS, React, TypeScript"
+    },
+    {
+      "role": "Backend Engineer",
+      "company": "BrightAI Labs",
+      "duration": "06/2024 - 12/2024",
+      "responsibilities": [
+        "Designed APIs to handle high-volume transaction processing.",
+        "Built serverless functions for automated report generation using AWS Lambda.",
+        "Integrated WebSocket communication for real-time data updates.",
+        "Collaborated with data scientists to deploy AI models into production."
+      ],
+      "techStack": "AWS Lambda, Node.js, NestJS, PostgreSQL"
     }
   ],
   "projects": [
     {
-      "name": "Job Search Platform",
+      "name": "Freelance Marketplace Platform",
       "isPersonal": true,
       "responsibilities": [
-        "Developed a JWT-based authentication and authorization system with two-factor authentication.",
-        "Developed job listings management, and enabled job applications with resume uploads.",
-        "Integrated RabbitMQ for job application email notifications using Thymeleaf.",
-        "Enhanced user experience with skill-based job matching and feedback system.",
-        "Developed a feature for users to save job and receive automated reminders for job application deadlines or unsent applications."
+        "Implemented a secure authentication system with JWT and OAuth2.",
+        "Built a bidding system for project proposals.",
+        "Integrated messaging service with email notifications.",
+        "Designed skill-based matching algorithm for clients and freelancers.",
+        "Developed a dashboard for freelancers to track project deadlines."
       ],
-      "techStack": "PostgreSQL, RabbitMQ, Docker, Spring Boot, JWT, Thymeleaf"
-    },
-    {
-      "name": "Back-end for an E-commerce Website",
-      "isPersonal": true,
-      "responsibilities": [
-        "Designed and optimized a database structure for efficient data management.",
-        "Developed user and admin management features for the e-commerce platform.",
-        "Created RESTful APIs, utilizing meaningful HTTP status codes and detailed error responses.",
-        "Implemented authentication and role-based authorization using JWT with OAuth2."
-      ],
-      "techStack": "MySQL, Docker, Spring Boot 3, Spring Security 6"
+      "techStack": "PostgreSQL, RabbitMQ, Docker, Spring Boot, JWT"
     }
   ]
 }

@@ -25,33 +25,34 @@ const ZoomWrapper = ({ children, resumeData }) => {
                 Reset
               </button>
             </div>
+            <div>
+              <PDFDownloadLink
+                document={<ResumePDFDocument data={resumeData} />}
+                fileName="resume.pdf"
+                className="download-pdf-button primary"
+              >
+                {({ loading }) =>
+                  loading ? (
+                    <>
+                      <LoaderCircle size={16} className="spinner" />
+                      <span>Generating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download size={16} />
+                      <span>Download PDF</span>
+                    </>
+                  )
+                }
+              </PDFDownloadLink>
+            </div>
           </div>
           <TransformComponent>
             <div className="zoom-content">
               <div>{children}</div>
             </div>
           </TransformComponent>
-          <div className="floating-button">
-            <PDFDownloadLink
-              document={<ResumePDFDocument data={resumeData} />}
-              fileName="resume.pdf"
-              className="download-pdf-button primary"
-            >
-              {({ loading }) =>
-                loading ? (
-                  <>
-                    <LoaderCircle size={16} className="spinner" />
-                    <span>Generating...</span>
-                  </>
-                ) : (
-                  <>
-                    <Download size={16} />
-                    <span>Download PDF</span>
-                  </>
-                )
-              }
-            </PDFDownloadLink>
-          </div>
+          <div className="floating-button"></div>
         </div>
       )}
     </TransformWrapper>

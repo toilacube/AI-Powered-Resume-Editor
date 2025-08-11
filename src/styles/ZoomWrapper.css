@@ -8,6 +8,8 @@
 .tools {
   display: flex;
   gap: var(--spacing-sm);
+  align-items: center;
+  justify-content: space-between;
 }
 
 .zoom-content {
@@ -19,7 +21,7 @@
   display: flex;
   gap: var(--spacing-sm);
   background: var(--color-surface);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-xs);
   border-radius: var(--radius-md);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
