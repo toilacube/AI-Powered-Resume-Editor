@@ -1,0 +1,510 @@
+/* Job Description Analysis Styles */
+
+/* Modal/Panel Container */
+.job-analysis-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 500px;
+  height: 100vh;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.job-analysis-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.job-analysis-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--color-text-primary);
+}
+
+.job-analysis-title h3 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: color-mix(in srgb, var(--color-text-secondary) 10%, transparent);
+  color: var(--color-text-primary);
+}
+
+/* Content Area */
+.job-analysis-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+
+/* Job Description Input Styles */
+.job-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  height: 100%;
+}
+
+.job-input-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.job-input-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.job-description-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s ease;
+}
+
+.job-description-textarea:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+}
+
+.job-description-textarea.error {
+  border-color: var(--color-primary);
+}
+
+.job-description-textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.job-input-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-xs);
+}
+
+.character-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.character-count .error {
+  color: var(--color-primary);
+}
+
+.min-length-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-primary);
+  font-size: var(--text-sm);
+  padding: var(--spacing-sm);
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 10%,
+    var(--color-surface)
+  );
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.retry-button {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 90%, black);
+}
+
+.retry-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Action Buttons */
+.job-input-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.analyze-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: var(--color-secondary);
+  color: var(--color-text-on-primary);
+  border: none;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--text-md);
+  transition: all 0.2s ease;
+}
+
+.analyze-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-secondary) 90%, black);
+  transform: translateY(-1px);
+}
+
+.analyze-button:disabled {
+  background: var(--color-border);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.validation-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+.keyboard-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Analysis Results Styles */
+.analysis-results {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--spacing-lg);
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: var(--color-sidebar);
+  color: var(--color-text-primary);
+}
+
+.results-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  overflow-y: auto;
+}
+
+/* Results Sections */
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.section-header h4 {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.skill-count {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.section-icon {
+  flex-shrink: 0;
+}
+
+.matched-icon {
+  color: var(--color-secondary);
+}
+
+.missing-icon {
+  color: var(--color-primary);
+}
+
+/* Skills Container */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  min-height: 60px;
+}
+
+/* Skill Tags */
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border: 1px solid;
+  transition: all 0.2s ease;
+}
+
+.skill-tag--md {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--text-sm);
+}
+
+.skill-tag--sm {
+  padding: calc(var(--spacing-xs) * 0.75) var(--spacing-xs);
+  font-size: 0.75rem;
+}
+
+.skill-tag--matched {
+  background: color-mix(
+    in srgb,
+    var(--color-secondary) 20%,
+    var(--color-surface)
+  );
+  border-color: var(--color-secondary);
+  color: var(--color-text-primary);
+}
+
+.skill-tag--missing {
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 20%,
+    var(--color-surface)
+  );
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.skill-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+  min-height: 120px;
+}
+
+.empty-state p {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: var(--text-sm);
+}
+
+.empty-state-hint {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Results Summary */
+.results-summary {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.summary-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.stat-number {
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.stat-number.matched-color {
+  color: var(--color-secondary);
+}
+
+.stat-number.missing-color {
+  color: var(--color-primary);
+}
+
+.stat-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.stat-divider {
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+}
+
+.summary-text {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .job-analysis-modal {
+    width: 100vw;
+    left: 0;
+    right: 0;
+  }
+
+  .job-analysis-content {
+    padding: var(--spacing-md);
+  }
+
+  .skills-container {
+    gap: var(--spacing-xs);
+  }
+
+  .summary-stats {
+    gap: var(--spacing-md);
+  }
+}
+
+/* Focus Styles for Accessibility */
+.job-analysis-modal:focus {
+  outline: none;
+}
+
+.close-button:focus,
+.back-button:focus,
+.analyze-button:focus,
+.retry-button:focus,
+.action-button.job-analysis-trigger:focus {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.job-description-textarea:focus {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-color: var(--color-secondary);
+}
+
+/* Action Button in Right Sidebar */
+.action-button.job-analysis-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.action-button.job-analysis-trigger:hover {
+  background: var(--color-sidebar);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+}

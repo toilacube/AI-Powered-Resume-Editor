@@ -27,6 +27,7 @@ const ZoomWrapper = ({ children, resumeData }) => {
             </div>
             <div>
               <PDFDownloadLink
+                key={Date.now()}
                 document={<ResumePDFDocument data={resumeData} />}
                 fileName="resume.pdf"
                 className="download-pdf-button primary"

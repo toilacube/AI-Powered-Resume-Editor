@@ -71,6 +71,93 @@ export const callOpenAI = async (
 };
 
 /**
+ * Analyzes a job description against resume data to find matched and missing skills
+ * @param {string} jobDescription - The job description text to analyze
+ * @param {object} resumeData - The current resume data object
+ * @param {string} key - The Gemini API key
+ * @param {string} model - The Gemini model to use
+ * @returns {Promise<object>} Analysis results with matched and missing skills
+ */
+export const analyzeJobDescription = async (
+  jobDescription,
+  resumeData,
+  key,
+  model = "gemini-2.0"
+) => {
+  if (!key) {
+    throw new Error(
+      "Gemini API key is missing. Please provide it to continue."
+    );
+  }
+
+  if (!jobDescription || jobDescription.trim().length < 50) {
+    throw new Error(
+      "Job description is too short. Please provide at least 50 characters for meaningful analysis."
+    );
+  }
+
+  const genAI = new GoogleGenAI({ apiKey: key });
+
+  const systemPrompt = `You are an expert resume analyzer. Your task is to compare a job description against a resume and identify:
+
+1. MATCHED skills/requirements: Skills, technologies, qualifications, or experiences mentioned in the job description that are clearly present in the resume
+2. MISSING skills/requirements: Important skills, technologies, qualifications, or experiences mentioned in the job description that are NOT present or not emphasized in the resume
+
+Analyze both technical skills (programming languages, tools, frameworks) and soft skills (leadership, communication, etc.).
+
+You MUST respond with a single, valid JSON object with this exact structure:
+{
+  "matched": ["skill1", "skill2", "skill3"],
+  "missing": ["skill4", "skill5", "skill6"]
+}
+
+Guidelines:
+- Be specific and use the exact terms from the job description when possible
+- Focus on the most important and frequently mentioned requirements
+- Include both technical and soft skills
+- Limit each array to the most relevant 10-15 items
+- Use consistent capitalization and formatting
+- If no matches or missing skills are found, use empty arrays
+
+Resume Data:
+${JSON.stringify(resumeData, null, 2)}
+
+Job Description to analyze:
+"${jobDescription}"`;
+
+  try {
+    const result = await genAI.models.generateContent({
+      model: model,
+      contents: systemPrompt,
+    });
+    let responseText = result.text;
+
+    // Clean up potential markdown formatting
+    responseText = responseText
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const analysisResult = JSON.parse(responseText);
+
+    // Validate the response structure
+    if (!analysisResult.matched || !Array.isArray(analysisResult.matched)) {
+      analysisResult.matched = [];
+    }
+    if (!analysisResult.missing || !Array.isArray(analysisResult.missing)) {
+      analysisResult.missing = [];
+    }
+
+    return analysisResult;
+  } catch (error) {
+    console.error("Error calling Gemini API for job analysis:", error);
+    throw new Error(
+      `Failed to analyze job description. Please check your API key and network connection. Details: ${error.message}`
+    );
+  }
+};
+
+/**
  * Extracts content from a PDF file using Gemini and structures it
  * according to the provided resume JSON schema.
  * @param {string} fileBase64 - The base64 encoded string of the PDF file.
@@ -81,7 +168,7 @@ export const callOpenAI = async (
 export const extractDataFromPdf = async (
   fileBase64,
   key,
-  model = "gemini-2.0-flash-lite"
+  model = "gemini-2.0-flash"
 ) => {
   if (!key) {
     throw new Error(

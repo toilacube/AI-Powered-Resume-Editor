@@ -6,6 +6,8 @@ import {
   ChevronUp,
   History,
   Upload,
+  Target,
+  LoaderCircle,
 } from "lucide-react";
 import { applyPatch } from "fast-json-patch";
 
@@ -16,10 +18,12 @@ import ConfirmationModal from "./components/ConfirmationModal";
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
 import HistoryPanel from "./components/HistoryPanel";
+import JobDescriptionAnalyzer from "./components/JobDescriptionAnalyzer";
 import "./styles/App.css"; // Main application shell styles
 import "./styles/Chat.css"; // Component-specific styles
 import "./styles/HistoryPanel.css";
 import "./styles/Modal.css";
+import "./styles/JobAnalysis.css";
 import { extractDataFromPdf } from "./utils/openaiService";
 
 function App() {
@@ -78,6 +82,7 @@ function App() {
     jsonText: "",
     error: null,
   });
+  const [showJobAnalysis, setShowJobAnalysis] = useState(false);
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -138,6 +143,14 @@ function App() {
 
   const handleModalJsonChange = (newJsonText) => {
     setModalState((prev) => ({ ...prev, jsonText: newJsonText, error: null }));
+  };
+
+  const handleJobAnalysisToggle = () => {
+    setShowJobAnalysis(!showJobAnalysis);
+  };
+
+  const handleJobAnalysisClose = () => {
+    setShowJobAnalysis(false);
   };
 
   return (
@@ -279,11 +292,29 @@ function App() {
             )}
             <span>{isExtracting ? "Extracting..." : "Upload CV"}</span>
           </button>
+
+          <button
+            className="action-button job-analysis-trigger"
+            onClick={handleJobAnalysisToggle}
+          >
+            <Target size={16} />
+            <span>Analyze Job Description</span>
+          </button>
         </div>
         <div className="right-sidebar-footer">
           <p>Made by toilacube</p>
         </div>
       </aside>
+
+      {/* Job Description Analysis Modal */}
+      {showJobAnalysis && (
+        <JobDescriptionAnalyzer
+          resumeData={resumeData}
+          apiKey={apiKey}
+          selectedModel={selectedModel}
+          onClose={handleJobAnalysisClose}
+        />
+      )}
     </div>
   );
 }
