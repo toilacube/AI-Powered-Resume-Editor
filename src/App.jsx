@@ -13,7 +13,9 @@ import { applyPatch } from "fast-json-patch";
 
 import { useResumeHistory } from "./hooks/useResumeHistory";
 import { useChat } from "./hooks/useChat";
+import { useProjectManager } from "./hooks/useProjectManager";
 import ConfirmationModal from "./components/ConfirmationModal";
+import ProjectSidebar from "./components/ProjectSidebar";
 
 import ResumeTemplate from "./components/ResumeTemplate";
 import ChatInterface from "./components/ChatInterface";
@@ -24,15 +26,30 @@ import "./styles/Chat.css"; // Component-specific styles
 import "./styles/HistoryPanel.css";
 import "./styles/Modal.css";
 import "./styles/JobAnalysis.css";
+import "./styles/ProjectSidebar.css";
 import { extractDataFromPdf } from "./utils/openaiService";
 
 function App() {
+  // Project management
+  const {
+    projects,
+    activeProjectId,
+    isLoading: projectsLoading,
+    error: projectsError,
+    createProject,
+    renameProject,
+    deleteProject,
+    switchProject,
+    updateLastChatMessage,
+  } = useProjectManager();
+
+  // Project-aware data hooks
   const {
     resumeData,
     history,
     updateResumeAndCreateHistory,
     applyHistoryVersion,
-  } = useResumeHistory();
+  } = useResumeHistory(activeProjectId);
 
   const [apiKey, setApiKey] = useState(
     () => localStorage.getItem("gemini_api_key") || ""
@@ -70,11 +87,14 @@ function App() {
     handleResumeUpdate,
     resumeData,
     apiKey,
-    selectedModel
+    selectedModel,
+    activeProjectId,
+    updateLastChatMessage
   );
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isProjectSidebarOpen, setIsProjectSidebarOpen] = useState(true);
   const fileInputRef = React.useRef(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -153,6 +173,32 @@ function App() {
     setShowJobAnalysis(false);
   };
 
+  // Project management handlers
+  const handleProjectCreate = async (name) => {
+    const projectId = await createProject(name);
+    if (projectId) {
+      await switchProject(projectId);
+      return projectId;
+    }
+    return null;
+  };
+
+  const handleProjectSelect = async (projectId) => {
+    await switchProject(projectId);
+  };
+
+  const handleProjectRename = async (projectId, newName) => {
+    return await renameProject(projectId, newName);
+  };
+
+  const handleProjectDelete = async (projectId) => {
+    return await deleteProject(projectId);
+  };
+
+  const handleProjectSidebarToggle = () => {
+    setIsProjectSidebarOpen(!isProjectSidebarOpen);
+  };
+
   return (
     <div className="app-container">
       <input
@@ -172,8 +218,25 @@ function App() {
         error={modalState.error}
       />
 
+      {/* Project Sidebar */}
+      <ProjectSidebar
+        projects={projects}
+        activeProjectId={activeProjectId}
+        isOpen={isProjectSidebarOpen}
+        onToggle={handleProjectSidebarToggle}
+        onProjectSelect={handleProjectSelect}
+        onProjectCreate={handleProjectCreate}
+        onProjectRename={handleProjectRename}
+        onProjectDelete={handleProjectDelete}
+        isLoading={projectsLoading}
+      />
+
       {/* Left Sidebar */}
-      <aside className="left-sidebar">
+      <aside
+        className={`left-sidebar ${
+          isProjectSidebarOpen ? "with-project-sidebar" : ""
+        }`}
+      >
         <div className="sidebar-header">
           <Bot size={28} color="var(--color-secondary)" />
           <h2>AI Resume Assistant</h2>
@@ -271,7 +334,14 @@ function App() {
 
       {/* Main Content */}
       <main className="main-content">
-        <ResumeTemplate data={resumeData} />
+        {activeProjectId ? (
+          <ResumeTemplate data={resumeData} />
+        ) : (
+          <div className="no-project-selected">
+            <h2>No Project Selected</h2>
+            <p>Create or select a project to start working on your resume.</p>
+          </div>
+        )}
       </main>
 
       {/* Right Sidebar */}
@@ -307,13 +377,20 @@ function App() {
       </aside>
 
       {/* Job Description Analysis Modal */}
-      {showJobAnalysis && (
+      {showJobAnalysis && activeProjectId && (
         <JobDescriptionAnalyzer
           resumeData={resumeData}
           apiKey={apiKey}
           selectedModel={selectedModel}
           onClose={handleJobAnalysisClose}
         />
+      )}
+
+      {/* Error Display */}
+      {projectsError && (
+        <div className="error-toast">
+          <span>{projectsError}</span>
+        </div>
       )}
     </div>
   );
